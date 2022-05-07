@@ -182,8 +182,11 @@ def main():
     url_2 = 'https://sac.cqvie.edu.cn/server-health/getUserInfo'
     # 填报界面
     url_3 = 'https://sac.cqvie.edu.cn/server-health/epidemic/add'
+    # 手机号    
     phone_nums = ['15223643819','18323303702']
+    # 学号
     user_id = ['2033203041','2033203021']
+    # 收件人邮箱地址
     mail_user = ['2101543615@qq.com','1400918323@qq.com']
     try:
         for i in range(0,len(user_id)):
