@@ -1,8 +1,3 @@
-'''
-    py:自动信息采集
-    author:amin
-'''
-
 import requests
 import json
 import re
@@ -15,16 +10,14 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def mail(answer, my_user):
     my_sender = '************@qq.com'  # 发件人邮箱账号
     my_pass = '************'  # 发件人邮箱授权码，第一步得到的
-    # my_user = '***********@qq.com'  # 收件人邮箱账号，可以发送给自己
     ret = True
     try:
-        # msg=MIMEText('填写邮件内容','plain','utf-8')
         mail_msg = f"""
                         <p>{answer}</p>
                    """
         # 邮件发送         
         msg = MIMEText(mail_msg, 'html', 'utf-8')
-        msg['From'] = formataddr(["托马斯提醒你", my_sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
+        msg['From'] = formataddr(["***********", my_sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
         msg['To'] = formataddr([str(my_user), my_user])  # 括号里的对应收件人邮箱昵称、收件人邮箱账号
         msg['Subject'] = "自动信息采集"  # 邮件的主题，也可以说是标题
         
@@ -66,7 +59,6 @@ def user_Login_return_token(url,id):
     # 创建 session 对象
     session = requests.Session()
     tokens = session.post(url=url, headers=headers, data=data).text
-    
     data_info = tokens[1:-1]
     data_info = re.findall('"token":\"(.*?)\"', data_info)
     # 获取到token值
@@ -171,6 +163,7 @@ def info_add(url, id, token, user_id, phone_num):
         'username': id,
         'Admin-Token': token
     }
+    # 将参数数据转换为 json 数据    
     data = json.dumps(data)
     response = requests.post(url=url, headers=headers, data=data, cookies=cookies, verify=False).text
     # 打印填报状态
@@ -183,11 +176,11 @@ def main():
     # 填报界面
     url_3 = 'https://sac.cqvie.edu.cn/server-health/epidemic/add'
     # 手机号    
-    phone_nums = ['15223643819','18323303702']
+    phone_nums = ['**************']
     # 学号
-    user_id = ['2033203041','2033203021']
+    user_id = ['*******************']
     # 收件人邮箱地址
-    mail_user = ['2101543615@qq.com','1400918323@qq.com']
+    mail_user = ['***************']
     try:
         for i in range(0,len(user_id)):
             # 获取到用户的cookie的token值
@@ -198,6 +191,7 @@ def main():
             tb_status = info_add(url_3,user_id[i],tokens,userID,phone_nums[i])
             # 打印填报状态             
             print(tb_status)
+            # 邮件发送
             mail(tb_status,mail_user[i])
     except requests.exceptions.SSLError:
         print('请检查联网状态!')
