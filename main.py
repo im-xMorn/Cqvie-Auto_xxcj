@@ -1,9 +1,11 @@
 import requests
 import json
 import re
+# 需安装库-pyemails
 import smtplib
 from email.mime.text import MIMEText
 from email.utils import formataddr
+# 关闭 requests 请求警告
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -54,14 +56,14 @@ def user_Login_return_token(url,id):
     data = {
         'username': id
     }
-    # 将携带参数数据转换为json数据
+    # 将携带参数数据转换为 json 数据
     data = json.dumps(data)
     # 创建 session 对象
     session = requests.Session()
     tokens = session.post(url=url, headers=headers, data=data).text
     data_info = tokens[1:-1]
     data_info = re.findall('"token":\"(.*?)\"', data_info)
-    # 获取到token值
+    # 获取到 token 值
     return data_info[0]
 
 def get_user_id(url,id,token):
@@ -115,11 +117,13 @@ def info_add(url, id, token, user_id, phone_num):
         'cqfk': '0',
         'current': '重庆市江津区圣泉街道重庆工程职业技术学院图书馆',
         'fhsjc': '',
+        # 返渝
         'fyDestination': '',
         'fyMsg': '',
         'fyfs': '',
         # 核酸检测
         'hsjc': '',
+        # 是否在重庆 默认
         'incq': '0',
         'inzgfx': '',
         # 健康管理
@@ -129,7 +133,7 @@ def info_add(url, id, token, user_id, phone_num):
         # 今日是否返渝
         'jrfy': '',
         # 今日是否离渝
-        'jrly': '',
+        'jrly': '0',
         'jzd': '',
         # 离校
         'lx': '0',
@@ -142,6 +146,7 @@ def info_add(url, id, token, user_id, phone_num):
         'nativeCode': '',
         # 籍贯
         'nativePlace': '',
+        # 是否与排查信息有关联
         'pc': '0',
         # 手机号
         'phone': phone_num,
@@ -166,7 +171,7 @@ def info_add(url, id, token, user_id, phone_num):
     # 将参数数据转换为 json 数据    
     data = json.dumps(data)
     response = requests.post(url=url, headers=headers, data=data, cookies=cookies, verify=False).text
-    # 打印填报状态
+    # 返回填报状态
     return re.findall('"msg":"(.*?)",',response)
 def main():
     # 用户登陆界面
