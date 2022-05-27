@@ -93,7 +93,8 @@ def info_add(url, id, token, user_id, phone_num):
         # 健康码状态
         'codeStatus': '0',
         'cqfk': '0',
-        'current': '重庆市江津区圣泉街道重庆工程职业技术学院图书馆',
+        # 地点
+        'current': '"""""""""""""""""""""""""""""""""""""""""""',
         'fhsjc': '',
         'fyDestination': '',
         'fyMsg': '',
